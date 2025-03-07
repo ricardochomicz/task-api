@@ -2,49 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function __construct(
+        protected TaskService $taskService
+    ) {}
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
+     * @return ResourceCollection
      */
-    public function create()
+    public function index(): ResourceCollection
     {
-        //
+        $tasks = $this->taskService->index();
+        return new ResourceCollection($tasks);
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        //
+        $task = $this->taskService->store($request->validated());
+        return new TaskResource($task);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        return new TaskResource($task);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
