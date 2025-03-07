@@ -36,7 +36,7 @@ jobs:
         php-version: '8.2'
         extensions: mbstring, exif, pcntl, bcmath, gd, intl, pdo_mysql
         ini-values: post_max_size=256M, upload_max_filesize=256M, memory_limit=2G
-        coverage: none
+        coverage: xdebug
 
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
