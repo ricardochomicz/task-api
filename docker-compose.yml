@@ -16,10 +16,25 @@ services:
       MYSQL_PASSWORD: pass # Senha desse usuário
     depends_on:
       - db
-    ports:
-      - "8080:80"
     networks:
       - laravel_network
+
+  webserver:
+    image: nginx:alpine
+    container_name: web-server
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/task-api
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/conf.d/app.conf:/etc/nginx/conf.d/app.conf
+      - ./:/var/www/task-api
+    networks:
+      - laravel_network
+    depends_on:
+      - app
+      - db
 
   # Serviço para o banco de dados MySQL
   db:
