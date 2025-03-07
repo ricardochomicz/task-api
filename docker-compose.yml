@@ -1,0 +1,49 @@
+services:
+  # Serviço para a aplicação Laravel
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: task-api
+    restart: unless-stopped
+    working_dir: /var/www/task-api
+    volumes:
+      - .:/var/www/task-api
+    environment:
+      MYSQL_DATABASE: taskdb
+      MYSQL_ROOT_PASSWORD: rootsecret # Defina a senha do root
+      MYSQL_USER: user # Nome de um usuário normal
+      MYSQL_PASSWORD: pass # Senha desse usuário
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    networks:
+      - laravel_network
+
+  # Serviço para o banco de dados MySQL
+  db:
+    image: mysql:8.0
+    container_name: task-api-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: taskdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: rootsecret
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel_network
+
+# Volumes para persistência de dados
+volumes:
+  db_data:
+    driver: local
+
+# Redes para comunicação entre os serviços
+networks:
+  laravel_network:
+    driver: bridge
