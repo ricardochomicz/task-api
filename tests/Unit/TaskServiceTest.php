@@ -54,6 +54,19 @@ class TaskServiceTest extends TestCase
         $this->assertEquals('Test Task', $task->title);
     }
 
+    public function testShowTask()
+    {
+        $user = User::factory()->create();
+        Auth::login($user);
+
+        $task = Task::factory()->create(['title' => 'Test Task', 'description' => 'Test Description', 'favorite' => false, 'color' => '#FFFFFF', 'user_id' => $user->id]);
+
+        $task = $this->taskService->show($task);
+
+        $this->assertInstanceOf(Task::class, $task);
+        $this->assertEquals('Test Task', $task->title);
+    }
+
     public function testUpdateTask()
     {
         $user = User::factory()->create();
