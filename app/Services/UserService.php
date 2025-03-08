@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class UserService
+class UserService extends BaseService
 {
     /**
      * @return User[]
@@ -17,22 +17,17 @@ class UserService
         return $users->get();
     }
 
-    public function show(User $user)
+    public function show(int $user)
     {
-        return $user;
+        return User::findOrFail($user);
     }
 
-    public function update(array $data, User $user)
+    public function update(array $data, int $user)
     {
-        try {
-            DB::beginTransaction();
-            $user->update($data);
-            DB::commit();
-            return $user;
-        } catch (\Throwable $th) {
-            //throw $th;
-            DB::rollBack();
-            return response()->json(['error' => 'Erro ao atualizar usuário'], 500);
-        }
+        return $this->executeTransaction(function () use ($data, $user) {
+            $us = $this->show($user);
+            $us->update($data);
+            return $us;
+        });
     }
 }
