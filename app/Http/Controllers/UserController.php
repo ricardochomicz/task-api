@@ -20,24 +20,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userService->index();
-        return UserResource::collection($users);
+        return UserResource::collection($this->userService->index());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return new UserResource($this->userService->show($user));
     }
 
 
@@ -46,16 +38,6 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $validatedData = $request->validated();
-        $user->update($validatedData);
-        return new UserResource($user);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
+        return new UserResource($this->userService->update($request->validated(), $user));
     }
 }

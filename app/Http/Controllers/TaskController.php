@@ -10,8 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 class TaskController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         protected TaskService $taskService
     ) {}
@@ -22,8 +26,7 @@ class TaskController extends Controller
      */
     public function index(): ResourceCollection
     {
-        $tasks = $this->taskService->index();
-        return new ResourceCollection($tasks);
+        return new ResourceCollection($this->taskService->index());
     }
 
 
@@ -32,13 +35,7 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        try {
-            $task = $this->taskService->store($request->validated());
-            return new TaskResource($task);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json(['error' => '[STORE] Erro ao criar a tarefa'], 500);
-        }
+        return new TaskResource($this->taskService->store($request->validated()));
     }
 
     /**
@@ -46,12 +43,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        try {
-            return new TaskResource($task);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json(['error' => '[SHOW] Erro ao localizar a tarefa'], 500);
-        }
+        $this->authorize('view', $task);
+        return new TaskResource($this->taskService->show($task));
     }
 
 
@@ -60,12 +53,7 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task)
     {
-        try {
-            $task->update($request->validated());
-            return new TaskResource($task);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => 'Erro ao atualizar a tarefa'], 500);
-        }
+        return new TaskResource($this->taskService->update($request->validated(), $task));
     }
 
 
@@ -74,13 +62,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        try {
-            $task->delete();
-            return response()->json([], 200);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json(['error' => '[DESTROY] Erro ao deletar a tarefa'], 500);
-        }
+        $this->taskService->destroy($task);
+        return response()->json([], 204);
     }
 
     /**
@@ -92,13 +75,7 @@ class TaskController extends Controller
      */
     public function updateColor(Request $request, Task $task)
     {
-        try {
-            $color = $request->input('color');
-            $task->update(['color' => $color]);
-            return new TaskResource($task);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => '[UPDATECOLOR] Erro ao atualizar a tarefa'], 500);
-        }
+        return new TaskResource($this->taskService->updateColor($task, $request->input('color')));
     }
 
     /**
@@ -109,12 +86,6 @@ class TaskController extends Controller
      */
     public function updateFavorite(Request $request, Task $task)
     {
-        try {
-            $isFavorite = $request->input('favorite');
-            $task->update(['favorite' => $isFavorite]);
-            return new TaskResource($task);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => '[UPDATEFAVORITE] Erro ao atualizar a tarefa'], 500);
-        }
+        return new TaskResource($this->taskService->updateFavorite($task, $request->input('favorite')));
     }
 }
