@@ -7,6 +7,7 @@ use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserServiceTest extends TestCase
 {
@@ -39,7 +40,7 @@ class UserServiceTest extends TestCase
         $user = User::factory()->create();
         Auth::login($user);
 
-        $user = $this->userService->show($user);
+        $user = $this->userService->show($user->id);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($user->name, $user->name);
@@ -55,9 +56,25 @@ class UserServiceTest extends TestCase
             'email' => 'email@example.com',
         ];
 
-        $updatedUser = $this->userService->update($data, $user);
+        $updatedUser = $this->userService->update($data, $user->id);
 
         $this->assertEquals('Updated Name', $updatedUser->name);
         $this->assertEquals('email@example.com', $updatedUser->email);
+    }
+
+    public function testShowUserNotFound()
+    {
+        $this->expectException(ModelNotFoundException::class);
+
+        $this->userService->show(9999);
+    }
+
+    public function testUpdateUserNotFound()
+    {
+        $this->expectException(ModelNotFoundException::class);
+
+        $user = (int) 999;
+
+        $this->userService->update(['name' => 'Novo Nome', 'email' => 'email@test.com'], $user);
     }
 }
