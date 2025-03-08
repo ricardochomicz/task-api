@@ -24,9 +24,9 @@ class TaskController extends Controller
      * Display a listing of the resource.
      * @return ResourceCollection
      */
-    public function index(): ResourceCollection
+    public function index()
     {
-        return new ResourceCollection($this->taskService->index());
+        return TaskResource::collection($this->taskService->index());
     }
 
 
