@@ -12,7 +12,9 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('logout', [AuthController::class, 'logout']);
 
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class)->except(['create', 'edit']);
 
-    Route::resource('tasks', TaskController::class);
+    Route::resource('tasks', TaskController::class)->except(['create', 'edit']);
+    Route::put('tasks/{task}/favorite', [TaskController::class, 'updateFavorite']);
+    Route::put('tasks/{task}/color', [TaskController::class, 'updateColor']);
 });

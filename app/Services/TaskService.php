@@ -8,12 +8,23 @@ use Illuminate\Support\Facades\DB;
 
 class TaskService
 {
+    /**
+     * Retorna todas as tarefas do usuário logado. Ordenando por favoritos TRUE
+     * 
+     * @return array
+     */
     public function index()
     {
         $tasks = Task::where('user_id', Auth::id())->orderBy('favorite', 'asc')->get();
         return $tasks;
     }
 
+    /**
+     * Cria uma nova tarefa.
+     * 
+     * @param array $data
+     * @return Task
+     */
     public function store(array $data)
     {
         try {

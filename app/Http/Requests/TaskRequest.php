@@ -26,6 +26,7 @@ class TaskRequest extends FormRequest
             'description' => 'required|string',
             'favorite' => 'nullable|boolean',
             'color' => 'nullable|string|max:255',
+            // 'user_id' => 'required|integer|exists:users,id'
         ];
     }
 }
