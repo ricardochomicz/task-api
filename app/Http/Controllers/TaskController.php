@@ -41,7 +41,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(int $task)
     {
         $this->authorize('view', $task);
         return new TaskResource($this->taskService->show($task));
@@ -51,7 +51,7 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TaskRequest $request, Task $task)
+    public function update(TaskRequest $request, int $task)
     {
         return new TaskResource($this->taskService->update($request->validated(), $task));
     }
@@ -60,7 +60,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(int $task)
     {
         $this->taskService->destroy($task);
         return response()->json([], 204);
@@ -73,9 +73,9 @@ class TaskController extends Controller
      * @param int $id
      * 
      */
-    public function updateColor(Request $request, Task $task)
+    public function updateColor(Request $request, int $task)
     {
-        return new TaskResource($this->taskService->updateColor($task, $request->input('color')));
+        return new TaskResource($this->taskService->updateColor($request->input('color'), $task));
     }
 
     /**
@@ -84,8 +84,8 @@ class TaskController extends Controller
      * @param Request $request
      * @param int $id
      */
-    public function updateFavorite(Request $request, Task $task)
+    public function updateFavorite(Request $request, int $task)
     {
-        return new TaskResource($this->taskService->updateFavorite($task, $request->input('favorite')));
+        return new TaskResource($this->taskService->updateFavorite($request->input('favorite'), $task));
     }
 }

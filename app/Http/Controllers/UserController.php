@@ -25,7 +25,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(int $user)
     {
         return new UserResource($this->userService->show($user));
     }
@@ -34,7 +34,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, User $user)
+    public function update(UserRequest $request, int $user)
     {
         return new UserResource($this->userService->update($request->validated(), $user));
     }
