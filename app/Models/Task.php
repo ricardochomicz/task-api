@@ -17,4 +17,13 @@ class Task extends Model
     }
 
     protected $casts = ['favorite' => 'boolean'];
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            });
+        });
+    }
 }

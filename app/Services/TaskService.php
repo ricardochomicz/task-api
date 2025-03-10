@@ -13,10 +13,10 @@ class TaskService extends BaseService
      * 
      * @return array
      */
-    public function index()
+    public function index(array $data)
     {
-        $tasks = Task::where('user_id', Auth::id())->orderBy('favorite', 'asc');
-        return $tasks->paginate();
+        $tasks = Task::where('user_id', Auth::id())->filter($data)->orderBy('favorite', 'asc');
+        return $tasks->paginate(50);
     }
 
     /**

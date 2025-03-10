@@ -24,9 +24,10 @@ class TaskController extends Controller
      * Display a listing of the resource.
      * @return ResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return TaskResource::collection($this->taskService->index());
+        $search = $request->all();
+        return TaskResource::collection($this->taskService->index($search));
     }
 
 
@@ -35,7 +36,12 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        return new TaskResource($this->taskService->store($request->validated()));
+        try {
+            $newTask = $this->taskService->store($request->validated());
+            return response()->json(['message' => 'Tarefa atualizado com sucesso!', 'task' => new TaskResource($newTask)], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Erro ao cadastrar tarefa.', 'details' => $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -53,7 +59,13 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, int $task)
     {
-        return new TaskResource($this->taskService->update($request->validated(), $task));
+        try {
+            $updateTask = $this->taskService->update($request->validated(), $task);
+            return response()->json(['message' => 'Tarefa atualizada com sucesso!', 'task' => new TaskResource($updateTask)], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(['error' => 'Erro ao atualizar tarefa.', 'details' => $th->getMessage()], 500);
+        }
     }
 
 
@@ -75,7 +87,13 @@ class TaskController extends Controller
      */
     public function updateColor(Request $request, int $task)
     {
-        return new TaskResource($this->taskService->updateColor($request->input('color'), $task));
+        try {
+            $updateTask = $this->taskService->updateColor($request->input('color'), $task);
+            return response()->json(['message' => 'Tarefa atualizada com sucesso!', 'task' => new TaskResource($updateTask)], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(['error' => 'Erro ao atualizar tarefa.', 'details' => $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -87,6 +105,12 @@ class TaskController extends Controller
     public function updateFavorite(Request $request, int $task)
     {
         $favorite = filter_var($request->input('favorite'), FILTER_VALIDATE_BOOLEAN);
-        return new TaskResource($this->taskService->updateFavorite($favorite, $task));
+        try {
+            $updateTask = $this->taskService->updateFavorite($favorite, $task);
+            return response()->json(['message' => 'Tarefa atualizada com sucesso!', 'task' => new TaskResource($updateTask)], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(['error' => 'Erro ao atualizar tarefa.', 'details' => $th->getMessage()], 500);
+        }
     }
 }

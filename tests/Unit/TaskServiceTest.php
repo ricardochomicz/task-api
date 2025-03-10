@@ -24,19 +24,44 @@ class TaskServiceTest extends TestCase
         $this->taskService = new TaskService();
     }
 
-    public function testIndexTask()
+    public function testIndexTaskWithFilter()
     {
+        // Criar usuário e logar
         $user = User::factory()->create();
         Auth::login($user);
 
-        $task = Task::factory()->create(['title' => 'Test Task', 'description' => 'Test Description', 'favorite' => false, 'color' => '#FFFFFF', 'user_id' => $user->id]);
+        // Criar tarefas com título e descrição diferentes
+        $task1 = Task::factory()->create([
+            'title' => 'Test Task',
+            'description' => 'Test Description',
+            'favorite' => false,
+            'color' => '#FFFFFF',
+            'user_id' => $user->id
+        ]);
 
-        $tasks = $this->taskService->index();
+        $task2 = Task::factory()->create([
+            'title' => 'Another Task',
+            'description' => 'Another Description',
+            'favorite' => false,
+            'color' => '#FFFFFF',
+            'user_id' => $user->id
+        ]);
 
-        $this->assertCount(1, $tasks);
+        // Chamar o método index com um filtro de busca
+        $searchData = ['search' => 'Test'];  // Filtro de busca
+
+        $tasks = $this->taskService->index($searchData);
+
+        // Verificar se o filtro retornou a tarefa correta
+        $this->assertCount(1, $tasks); // Deveria retornar apenas 1 tarefa
         $this->assertInstanceOf(Task::class, $tasks[0]);
-        $this->assertEquals('Test Task', $tasks[0]->title);
+        $this->assertEquals('Test Task', $tasks[0]->title); // Verificar título da tarefa
+        $this->assertEquals('Test Description', $tasks[0]->description); // Verificar descrição da tarefa
+
+        // Verificar que a outra tarefa não foi retornada
+        $this->assertNotEquals('Another Task', $tasks[0]->title);
     }
+
 
     public function testStoreTask()
     {
