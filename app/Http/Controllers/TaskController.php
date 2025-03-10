@@ -86,6 +86,7 @@ class TaskController extends Controller
      */
     public function updateFavorite(Request $request, int $task)
     {
-        return new TaskResource($this->taskService->updateFavorite($request->input('favorite'), $task));
+        $favorite = filter_var($request->input('favorite'), FILTER_VALIDATE_BOOLEAN);
+        return new TaskResource($this->taskService->updateFavorite($favorite, $task));
     }
 }

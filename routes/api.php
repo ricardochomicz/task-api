@@ -12,7 +12,9 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('logout', [AuthController::class, 'logout']);
 
+    Route::get('me', [UserController::class, 'me']);
     Route::resource('users', UserController::class)->except(['create', 'edit']);
+
 
     Route::resource('tasks', TaskController::class)->except(['create', 'edit']);
     Route::put('tasks/{task}/favorite', [TaskController::class, 'updateFavorite']);

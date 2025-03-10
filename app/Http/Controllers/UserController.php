@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -36,6 +37,17 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, int $user)
     {
-        return new UserResource($this->userService->update($request->validated(), $user));
+        try {
+            $updatedUser = $this->userService->update($request->validated(), $user);
+            return response()->json(['message' => 'Usuário atualizado com sucesso!', 'user' => new UserResource($updatedUser)], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Erro ao atualizar usuário.', 'details' => $th->getMessage()], 500);
+        }
+    }
+
+    public function me(Request $request)
+    {
+
+        return response()->json(new UserResource($request->user()));
     }
 }
