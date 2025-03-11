@@ -25,5 +25,9 @@ class Task extends Model
                 $query->where('title', 'like', '%' . $search . '%');
             });
         });
+
+        $query->when($filters['color'] ?? null, function ($query, $color) {
+            $query->where('color', $color);
+        });
     }
 }
