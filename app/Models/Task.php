@@ -27,6 +27,6 @@ class Task extends Model
         });
         $query->when($filters['color'] ?? null, function ($query, $color) {
             $query->where('color', $color);
-
+        });
     }
 }
