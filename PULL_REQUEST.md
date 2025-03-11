@@ -49,7 +49,7 @@ docker run -p 3000:80 task-app
 ```
 
 ## Acessar aplicação
-[http://localhost](http://localhost)
+[http://localhost:3000](http://localhost:3000)
 
 
 ### Utilizar o sistema
@@ -60,5 +60,6 @@ Assista o vídeo abaixo e veja como utilizar o sistema:
 ![alt text](image.png)
 ![alt text](image-1.png)
 ![alt text](Tela.gif)
+![alt text](Mobile.gif)
 
 
