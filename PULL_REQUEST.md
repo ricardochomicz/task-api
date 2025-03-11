@@ -57,9 +57,9 @@ Assista o vídeo abaixo e veja como utilizar o sistema:
 [Assistir](https://youtu.be/4P6oRjyOpao)
 
 ### Telas do sistema
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](Tela.gif)
+
+![alt text](Login.gif)
+![alt text](tasks.gif)
 ![alt text](Mobile.gif)
 
 
