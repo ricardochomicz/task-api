@@ -1,66 +1,145 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este é um projeto de API para gerenciar tarefas, desenvolvido com Laravel.
 
-## About Laravel
+## Estrutura do Projeto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```
+.editorconfig
+.env
+.env.example
+.env.testing
+.gitattributes
+.gitignore
+.phpunit.result.cache
+artisan
+composer.json
+composer.lock
+config.txt
+docker-compose.yml
+Dockerfile
+package.json
+phpunit.xml
+README.md
+update
+vite.config.js
+.github/
+    workflows/
+app/
+    Http/
+    Models/
+    Policies/
+    Providers/
+    Services/
+bootstrap/
+    app.php
+    providers.php
+    cache/
+config/
+    app.php
+    auth.php
+    cache.php
+    database.php
+    filesystems.php
+    ...
+database/
+    ...
+nginx/
+php/
+public/
+resources/
+routes/
+storage/
+tests/
+vendor/
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requisitos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.0 ou superior
+- Composer
+- MySQL
+- Docker (opcional)
 
-## Learning Laravel
+## Instalação
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone o repositório:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```sh
+git clone https://github.com/seu-usuario/task-api.git
+cd task-api
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Instale as dependências do Composer:
 
-## Laravel Sponsors
+```sh
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Copie o arquivo `.env.example` para `.env` e configure suas variáveis de ambiente:
 
-### Premium Partners
+```sh
+cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. Gere a chave da aplicação:
 
-## Contributing
+```sh
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. Execute as migrações do banco de dados:
 
-## Code of Conduct
+```sh
+php artisan migrate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Executando o Projeto
 
-## Security Vulnerabilities
+### Localmente
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Para executar o projeto localmente, você pode usar o servidor embutido do Laravel:
 
-## License
+```sh
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Usando Docker
+
+Se preferir usar Docker, você pode usar o arquivo `docker-compose.yml` fornecido:
+
+```sh
+docker-compose up -d
+```
+
+## Testes
+
+Para executar os testes, use o seguinte comando:
+
+```sh
+php artisan test
+```
+
+## CI/CD
+
+Este projeto utiliza GitHub Actions para CI/CD. O arquivo de configuração está localizado em [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).
+
+## Estrutura do Código
+
+- `app/Http/`: Contém os controladores da aplicação.
+- `app/Models/`: Contém os modelos Eloquent.
+- `app/Policies/`: Contém as políticas de autorização.
+- `app/Providers/`: Contém os provedores de serviço.
+- `app/Services/`: Contém os serviços da aplicação.
+- `config/`: Contém os arquivos de configuração.
+- `database/`: Contém as migrações e seeders do banco de dados.
+- `routes/`: Contém os arquivos de rotas.
+- `tests/`: Contém os testes da aplicação.
+
+## Contribuição
+
+Se você deseja contribuir com este projeto, por favor, abra uma issue ou envie um pull request.
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
