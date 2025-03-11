@@ -33,6 +33,8 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/task-api/storage /var/www/task-api/bootstrap/cache
 RUN chmod -R 775 /var/www/task-api/storage /var/www/task-api/bootstrap/cache
 
+RUN composer install --no-dev --optimize-autoloader
+
 # Gerar autoload do Composer
 RUN composer dump-autoload
 

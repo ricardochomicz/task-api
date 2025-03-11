@@ -80,7 +80,15 @@ composer install
 
 ```sh
 cp .env.example .env
+
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=taskdb
+DB_USERNAME=user
+DB_PASSWORD=pass
 ```
+
 
 4. Gere a chave da aplicação:
 
@@ -101,6 +109,14 @@ php artisan migrate
 Para executar o projeto localmente, você pode usar o servidor embutido do Laravel:
 
 ```sh
+php artisan key:generate
+```
+
+```sh
+php artisan migrate
+```
+
+```sh
 php artisan serve
 ```
 
@@ -110,6 +126,11 @@ Se preferir usar Docker, você pode usar o arquivo `docker-compose.yml` fornecid
 
 ```sh
 docker-compose up -d
+```
+
+```sh
+docker exec -it task-api bash
+php artisan key:generate
 ```
 
 ## Testes
