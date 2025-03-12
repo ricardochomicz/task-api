@@ -1,3 +1,6 @@
+# Guia do projeto
+[PULL_REQUEST](PULL_REQUEST.md)
+
 # Task API
 
 Este é um projeto de API para gerenciar tarefas, desenvolvido com Laravel.
