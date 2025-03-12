@@ -1,14 +1,21 @@
+# Instruções para Clonar e Configurar o Projeto
 
-## Clonar repositórios
-- git clone https://github.com/ricardochomicz/task-api.git
-- git clone https://github.com/ricardochomicz/task-app.git
+## Clonar Repositórios
 
-# API
-## Acessar pasta aplicação, criar .env e variáveis de ambiente
+```bash
+git clone https://github.com/ricardochomicz/task-api.git
+git clone https://github.com/ricardochomicz/task-app.git
+```
+
+# Configuração da API
+
+## Acessar a Pasta da Aplicação e Configurar Variáveis de Ambiente
+
 ```bash
 cd task-api
 cp .env.example .env
 
+# Configurar as variáveis de ambiente no arquivo .env
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
@@ -17,49 +24,66 @@ DB_USERNAME=user
 DB_PASSWORD=pass
 ```
 
-## Construir a imagem e rodar o container
+## Construir a Imagem e Rodar o Container
+
 ```bash
 docker-compose up -d
 docker exec -it task-api bash
 composer install
-php artisan:key generate
+php artisan key:generate
 php artisan migrate
 ```
 
+# Configuração do Frontend
 
-## Construir a imagem e rodar o container
-```bash
-docker build -t task-app .
-docker run -p 80:80 task-app
-```	
- 
-# APP
-## Acessar pasta aplicação (local)
+## Acessar a Pasta da Aplicação (Local)
+
 ```bash
 cd task-app
 npm install --legacy-peer-deps
 npm start
-``` 
+```
 
-## Construir a imagem e rodar o container
+## Construir a Imagem e Rodar o Container
+
 ```bash
 cd task-app
 docker build -t task-app .
 docker run -p 3000:80 task-app
 ```
 
-## Acessar aplicação
+# Acessar a Aplicação
+
+Acesse a aplicação no navegador:
+
 [http://localhost:3000](http://localhost:3000)
 
+# Executar Testes API
 
-### Utilizar o sistema
-Assista o vídeo abaixo e veja como utilizar o sistema:
+Para executar os testes, use o seguinte comando:
+
+```bash
+cd task-api
+php artisan test
+```
+
+## Executar Teste APP
+
+Para executar os testes, use o seguinte comando:
+
+```bash
+cd task-app
+npx jest
+```
+
+# Utilizar o Sistema
+
+Assista ao vídeo abaixo para ver como utilizar o sistema:
+
 [Assistir](https://youtu.be/4P6oRjyOpao)
 
-### Telas do sistema
+# Telas do Sistema
 
-![alt text](Login.gif)
-![alt text](tasks.gif)
-![alt text](Mobile.gif)
-
-
+![Login](Login.gif)
+![Tasks](tasks.gif)
+![Mobile](Mobile.gif)
